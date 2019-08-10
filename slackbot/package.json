@@ -12,6 +12,8 @@
     "axios": "^0.19.0",
     "dog-breeds": "^1.0.0",
     "dog-names": "^2.0.0",
+    "express": "^4.17.1",
+    "localtunnel": "^1.9.2",
     "slackbots": "^1.2.0"
   }
 }
