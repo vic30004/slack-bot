@@ -11,6 +11,8 @@ const GoogleSpreadsheet = require('google-spreadsheet');
 const { promisify } = require('util');
 
 const creds = require('./client_secret.json');
+
+let sheetURL= "1vXkIUtBdVMpEEIyXW_6zpsR_FhEn8YviQ70-2TC0K0Q";
 // CSVToJson().fromFile("./source.csv").then(source => {
 //     console.log(source);
 //     source.push({
@@ -30,7 +32,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let groupURL = "https://slack.com/api/groups.list?token=xoxb-633436554626-721827870198-IGswjLyFbW2rn9BxHoo1J6x2&pretty=1"
 
 const test = [
     {
@@ -39,8 +40,7 @@ const test = [
     }
 ]
 
-
-app.post('/hello', (req, res) => {
+app.post('/hello', (req, res) => {// adds info to cvs
     console.log(req.body.text)
     let text = req.body.text;
     split(text);
@@ -79,11 +79,8 @@ app.post('/hello', (req, res) => {
 });
 
 let spreadsheet = {};
-app.post("/createspreadsheet", (req, res) => {
+app.post("/createspreadsheet", (req, res) => {//creates a csv spreadsheet
     heead(req.body.text);
-
-
-
     let text = req.body.text;
     //test(req.body.text)
     bot;
@@ -114,22 +111,17 @@ app.post("/createspreadsheet", (req, res) => {
 })
 
 
-console.log(spreadsheet)
-
-
 app.post("/google", function(req,res){
     let text = req.body.text;
-    bot;
-
-    function printStudent(student){
-        console.log(`Name: ${student.studentname}`)
-        console.log(`Major: ${student.major}`);
-         console.log(`State: ${student.homestate}`);
-         console.log("=====================================")
-    }
+    // function printStudent(student){
+    //     console.log(`Name: ${student.studentname}`)
+    //     console.log(`Major: ${student.major}`);
+    //      console.log(`State: ${student.homestate}`);
+    //      console.log("=====================================")
+    // }
     
     async function accessSpreadsheet(){
-        const doc = new GoogleSpreadsheet('1vXkIUtBdVMpEEIyXW_6zpsR_FhEn8YviQ70-2TC0K0Q');
+        const doc = new GoogleSpreadsheet(sheetURL);
         await promisify(doc.useServiceAccountAuth)(creds);
         const info = await promisify(doc.getInfo)();
         const sheet = info.worksheets[0];
@@ -138,9 +130,9 @@ app.post("/google", function(req,res){
         const rows = await promisify(sheet.getRows)({
             query: 'homestate = NY'
         });
-        rows.forEach(row => {
-            printStudent(row)
-        })
+        // rows.forEach(row => {
+        //     // printStudent(row)
+        // })
         // console.log(rows)
         let addRows = {
         
@@ -149,7 +141,7 @@ app.post("/google", function(req,res){
       await promisify(sheet.addRow)(addRows)
     
     function addVal(str) {
-        let newVal = text.split(",");
+        let newVal = str.split(",");
         addRows.studentname= newVal[0];
         addRows.major= newVal[1];
         addRows.homestate= newVal[2];
@@ -161,15 +153,6 @@ app.post("/google", function(req,res){
     }
     
     accessSpreadsheet()
-
-    bot.on("message", (data) => {
-        console.log(data)
-        if (! /^\d+$/.test(text)) { // not a digit 
-            res.send('U R DOIN IT WRONG. Enter a status code like 200!'); return;
-        }
-
-
-    })
 
     let data = {
         response_type: 'temporary-slack-bot', // public to the channel 
@@ -183,3 +166,59 @@ const server = app.listen(3000, () => { console.log('Express server   listening 
 app.get("/", function (req, res) {
     res.send("welcome to my website" + req.url)
 })
+
+app.post("/changeSpreadsheet", function(req,res){
+    let text= req.body.text;
+    bot;
+    
+    let newSpreadsheet = (str)=>{
+            sheetURL=str; 
+       }
+newSpreadsheet(text)
+       console.log(sheetURL)
+    let data = {
+        response_type: 'temporary-slack-bot', // public to the channel 
+        text: 'spreadsheet changed',
+    };
+    res.json(data);
+});
+       
+
+// app.post("/newheader", function(req,res) {
+//     let text= req.body.text;
+//     bot;
+
+//     async function accessSpreadsheet(){
+//         const doc = new GoogleSpreadsheet(sheetURL);
+//         await promisify(doc.useServiceAccountAuth)(creds);
+//         const info = await promisify(doc.getInfo)();
+//         const sheet = info.worksheets[0];
+//         console.log(`Ttile: ${sheet.title}, Rows: ${sheet.rowCount} `)
+    
+//         const rows = await promisify(sheet.getRows)({
+//             query: 'homestate = NY'
+//         });
+// let addRows = {};
+// addVal(text);
+// await promisify(sheet.addRow)(addRows)
+
+// function addVal(text) {
+//     let  newHeader= text.split(",")
+//     for (let i=0; i<text.length;i++){
+// if(newHeader[i] === undefined){
+// 	break;}
+
+//    addRows[newHeader[i]]="";
+// }
+// }
+// console.log(addRows)
+    
+// }
+// let data = {
+//     response_type: 'temporary-slack-bot', // public to the channel 
+//     text: 'header updated! ',
+// };
+// res.json(data);
+// accessSpreadsheet()
+// })
+
