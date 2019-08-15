@@ -22,12 +22,15 @@ const creds = require('./client_secret.json');
 //     const csv= JSONToCSV(source, {fields:["sku","title","hardware","price"]});
 //     FileSystem.writeFileSync("./source.csv",csv);
 // }); 
-
+const bot = new SlackBot({
+    token: '',
+    name: 'DogBot',
+})
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let groupURL = "https://slack.com/api/groups.list?token="
+let groupURL = "https://slack.com/api/groups.list?token=xoxb-633436554626-721827870198-IGswjLyFbW2rn9BxHoo1J6x2&pretty=1"
 
 const test = [
     {
@@ -37,16 +40,11 @@ const test = [
 ]
 
 
-
-
 app.post('/hello', (req, res) => {
     console.log(req.body.text)
     let text = req.body.text;
     split(text);
-    const bot = new SlackBot({
-        token: '',
-        name: 'DogBot',
-    })
+    bot;
 
     function split(str) {
         let wordsSplit = str.split(',')
@@ -61,7 +59,7 @@ app.post('/hello', (req, res) => {
                 "hardware": thirdCol
             })
             const csv = JSONToCSV(list, { fields: ["sku", "title", "hardware"] });
-            FileSystem.writeFileSync("./source.csv", csv)
+            fs.writeFileSync("./source.csv", csv)
         });
     }
     bot.on("message", (data) => {
@@ -88,10 +86,7 @@ app.post("/createspreadsheet", (req, res) => {
 
     let text = req.body.text;
     //test(req.body.text)
-    const bot = new SlackBot({
-        token: '',
-        name: 'DogBot',
-    })
+    bot;
 
     function heead(str) {
         let newHead = str.split(",");
@@ -100,23 +95,9 @@ app.post("/createspreadsheet", (req, res) => {
 
         })
         builder.createReadStream(test).pipe(fs.createWriteStream('output.csv'));
-        //   builder.headers.concat(newHead)
     }
 
-    // //function test(str){
-    //     let newKeys= str.split(' ');
-    //     for (let i=0; i<str.length;i++){
-    //         if(newKeys[i] === undefined){
-    //             break;
-    //         }
-    //         spreadsheet[newKeys[i]]="";
-    //         generate(spreadsheet).pipe(process.stdout);
-    //     }
-
-    //    const csv= JSONToCSV(spreadsheet, {fields:[Object.keys(spreadsheet)]});
-
-
-    // }
+   
     bot.on("message", (data) => {
         console.log(data)
         if (! /^\d+$/.test(text)) { // not a digit 
@@ -138,10 +119,7 @@ console.log(spreadsheet)
 
 app.post("/google", function(req,res){
     let text = req.body.text;
-    const bot = new SlackBot({
-        token: '',
-        name: 'DogBot',
-    })
+    bot;
 
     function printStudent(student){
         console.log(`Name: ${student.studentname}`)
@@ -151,7 +129,7 @@ app.post("/google", function(req,res){
     }
     
     async function accessSpreadsheet(){
-        const doc = new GoogleSpreadsheet('spreadsheetID');
+        const doc = new GoogleSpreadsheet('1vXkIUtBdVMpEEIyXW_6zpsR_FhEn8YviQ70-2TC0K0Q');
         await promisify(doc.useServiceAccountAuth)(creds);
         const info = await promisify(doc.getInfo)();
         const sheet = info.worksheets[0];
@@ -200,81 +178,8 @@ app.post("/google", function(req,res){
     res.json(data);
 });
 
-
-
-
-
-
-
-
-
 const server = app.listen(3000, () => { console.log('Express server   listening on port %d in %s mode', server.address().port, app.settings.env); });
-let clientId = "";
-let clientSecret = "";
-
-app.listen(process.env.PORT, process.env.IP, function () {
-    console.log("listening on port ")
-})
 
 app.get("/", function (req, res) {
     res.send("welcome to my website" + req.url)
 })
-
-app.post('/hello', function (req, res) {
-    // When a user authorizes an app, a code query parameter is passed on the oAuth endpoint. If that code is not there, we respond with an error message
-    if (!req.query.code) {
-        res.status(500);
-        res.send({ "Error": "Looks like we're not getting code." });
-        console.log("Looks like we're not getting code.");
-    } else {
-        // If it's there...
-
-        // We'll do a GET call to Slack's `oauth.access` endpoint, passing our app's client ID, client secret, and the code we just got as query parameters.
-        request({
-            url: 'https://slack.com/api/oauth.access', //URL to hit
-            qs: { code: req.query.code, client_id: clientId, client_secret: clientSecret }, //Query string data
-            method: 'GET', //Specify the method
-
-        }, function (error, response, body) {
-            if (error) {
-                console.log(error);
-            } else {
-                res.json(body);
-
-            }
-        })
-    }
-});
-app.post('/command', function (req, res) {
-    res.send('Your ngrok tunnel is up and running!');
-});
-
-
-// app.get("/hello",function(req,res){
-//     res.send("woof woof")
-// })
-
-
-
-//Start Handler
-
-
-
-//     axios.get(groupURL).then(res =>{
-//        let groupId= "" 
-//         for(let i=0; i<res.data.groups.length; i++){
-//             groupId=res.data.groups[i].name
-//         }
-
-//   })
-
-
-
-//Error
-
-// bot.on('error', (err) => console.log(err));
-
-//message handler
-
-
-
