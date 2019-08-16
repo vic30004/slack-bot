@@ -68,6 +68,9 @@ D) utilize an html dashboard to output important information
 V. Collaborators
 
 Raciel Diaz <== wireframe
+
 Andrew Tocchi <== readme file, early research on slackbots api
+
 Victor Abu Akleh <== Node.js coding, express coding, slackbot logic
+
 R.J. Tigalo <== Dashboard including CSS and JS 
