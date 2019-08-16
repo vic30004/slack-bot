@@ -8,6 +8,7 @@ Table of Contents
 5. Collaborators
 
 I. File Structure
+
 --------slackbot--------------
 
 1)----Index.html
@@ -23,7 +24,10 @@ I. File Structure
 6)------Node_modules-----
 
 7)--- various depedency files... Too many to list---
+
+
   -------------------------------------------------------------------------
+  
 1) Index.html <== This is the dashboard that pull data from the slack-bot
 
 2) Index.js <== This is the "Brain" of the slack-bot, all the logic that the slack-bot uses is written here, all the api's
