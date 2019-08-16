@@ -5,7 +5,7 @@ Table of Contents
 2. Project Scope
 3. Purpose
 4. Goals
-5. collaborators
+5. Collaborators
 
 I. File Structure
 --------slackbot--------------
@@ -44,4 +44,30 @@ I. File Structure
   
  WEB COMPONENTS \You will need to visit the Slack API to create your own app and intergrate the slash commands used in index.js\
   
-  II. 
+II. Project scope 
+
+The scope of this project was to work with slack's api, node.js, express, and google's sheets api to create a working slackbot.
+The goal of the project was for the slack bot to be able to read and write to a specified google sheet via slack commands. We 
+needed to use ngrock to host a server for this as slacks api requires https in order to utilize slack commands. We also ended up installing several dependecies including a edit-google sheets api dependency for node.js to simplify that slackbots interaction 
+with google sheets. If we were to continue with project we would likely remove this depedency and rewrite code in favor of using 
+just the google sheets api, as it offers more flexiablity (but is far less readable). 
+
+III. Purpose
+
+The purpose of this project is to test the interactions between API's in more active settting. Instead of using a static webpage, we chose to use a dynamic platform (slack) to showcase those interactions. Because both slack and gsuite are becomming basic tools of 
+daily buisness life it made sense to combine them. Many companies use slack for basic communications between co-workers, superiors and inferiors, and schedulers. These companies often use google sheets to create schedules for both shifts and vacation, often limiting access to said sheet for fear of mishaps. This can create anxiety among employees that often just want to make sure they know when they are scheduled, or be sure that their vacation has been inputed correctly. Using a tool like the slack-bot app can remedy a lot of that anxiety. Employees can rest easy knowing that their request is automactically appeneded to google sheets file and can easily access a work schedule by just requesting it from the slack-bot. 
+
+IV. Goals
+
+The goal of this project is to create a working slack bot that can except inputs via slack commands to
+A) generate cells on a predetermined google sheet
+B) read cells on a predetermiend google sheet
+C) use slash commands to address the user directly (not rely on post to channel)
+D) utilize an html dashboard to output important information
+
+V. Collaborators
+
+Raciel Diaz <== wireframe
+Andrew Tocchi <== readme file, early research on slackbots api
+Victor Abu Akleh <== Node.js coding, express coding, slackbot logic
+R.J. Tigalo <== Dashboard including CSS and JS 
