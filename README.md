@@ -22,7 +22,7 @@ I. File Structure
 
 6)------Node_modules-----
 
-7) various depedency files... Too many to list
+7)--- various depedency files... Too many to list---
   -------------------------------------------------------------------------
 1) Index.html <== This is the dashboard that pull data from the slack-bot
 
