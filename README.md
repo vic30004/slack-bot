@@ -64,9 +64,13 @@ daily buisness life it made sense to combine them. Many companies use slack for 
 IV. Goals
 
 The goal of this project is to create a working slack bot that can except inputs via slack commands to
+
 A) generate cells on a predetermined google sheet
+
 B) read cells on a predetermiend google sheet
+
 C) use slash commands to address the user directly (not rely on post to channel)
+
 D) utilize an html dashboard to output important information
 
 V. Collaborators
