@@ -25,13 +25,14 @@ let sheetURL= "1vXkIUtBdVMpEEIyXW_6zpsR_FhEn8YviQ70-2TC0K0Q";
 //     FileSystem.writeFileSync("./source.csv",csv);
 // }); 
 const bot = new SlackBot({
-    token: '',
+    token: 'xoxb-633436554626-721827870198-Tz4RW6EzlXElYBu05wlsW0po',
     name: 'DogBot',
 })
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let groupURL = "https://slack.com/api/groups.list?token=xoxb-633436554626-721827870198-Tz4RW6EzlXElYBu05wlsW0po"
 
 const test = [
     {
@@ -70,7 +71,7 @@ app.post('/hello', (req, res) => {// adds info to cvs
 
 
     })
-
+        
     let data = {
         response_type: 'temporary-slack-bot', // public to the channel 
         text: 'woof woof',
@@ -101,7 +102,7 @@ app.post("/createspreadsheet", (req, res) => {//creates a csv spreadsheet
             res.send('U R DOIN IT WRONG. Enter a status code like 200!'); return;
         }
 
-    })
+    }) 
 
     let data = {
         response_type: 'temporary-slack-bot', // public to the channel 
@@ -111,7 +112,7 @@ app.post("/createspreadsheet", (req, res) => {//creates a csv spreadsheet
 })
 
 
-app.post("/google", function(req,res){
+app.post("/googletest", function(req,res){
     let text = req.body.text;
     // function printStudent(student){
     //     console.log(`Name: ${student.studentname}`)
@@ -182,7 +183,46 @@ newSpreadsheet(text)
     };
     res.json(data);
 });
-       
+
+function printStudent(student){
+    `Name: ${student.studentname}`;
+    `Major: ${student.major}`;
+    `State: ${student.homestate}`;
+    "=====================================";
+}
+let ts= ""; 
+app.post("/logSheet", function(req,res){
+    async function accessSpread(){
+        const doc = new GoogleSpreadsheet(sheetURL);   
+           debugger;
+           await promisify(doc.useServiceAccountAuth)(creds);
+           const info = await promisify(doc.getInfo)();
+           const sheet = info.worksheets[0];
+         console.log(`Ttile: ${sheet.title}, Rows: ${sheet.rowCount} `)
+          
+           const rows = await promisify(sheet.getRows)({
+             offset: 0,
+             limit: 1155,
+           });
+   
+           rows.forEach(row => {
+            ts= `Name: ${row.studentname} || Gender: ${row.gender} || Major: ${row.classlevel} || State: ${row.homestate} `;
+            return ts
+        })    
+    }    
+           let data={
+            response_type: 'temporary-slack-bot',
+            text: ts
+           }
+            
+accessSpread()
+
+
+res.json(data)
+})
+
+
+
 
 // app.post("/newheader", function(req,res) {
 //     let text= req.body.text;
