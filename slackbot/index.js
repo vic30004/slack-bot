@@ -12,16 +12,15 @@ const { promisify } = require('util');
 
 const creds = require('./client_secret.json');
 
-let sheetURL= "1vXkIUtBdVMpEEIyXW_6zpsR_FhEn8YviQ70-2TC0K0Q";
+let sheetURL= "";
 const bot = new SlackBot({
-    token: 'xoxb-633436554626-721827870198-Tz4RW6EzlXElYBu05wlsW0po',
+    token: '',
     name: 'DogBot',
 })
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let groupURL = "https://slack.com/api/groups.list?token=xoxb-633436554626-721827870198-Tz4RW6EzlXElYBu05wlsW0po"
 
 const test = [
     {
